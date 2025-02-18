@@ -2,12 +2,17 @@ import requests
 import pandas as pd
 from prefect import task, Flow
 from sqlalchemy import create_engine
+from prefect.schedules.schedules import IntervalSchedule
+from datetime import timedelta
 
 @task
 def extract_data():
     response = requests.get("https://dados.mobilidade.rio/gps/brt")
     data = response.json()
     return data
+
+# schedule data extraction to run every minute
+schedule = IntervalSchedule(interval=timedelta(minutes=1))
 
 @task
 def save_to_csv(data):
@@ -20,12 +25,10 @@ def load_to_postgres():
     df = pd.read_csv('brt_data.csv')
     df.to_sql('gps_brt', engine, if_exists='append', index=False)
 
-with Flow("BRT Data Flow") as flow:
+with Flow("BRT Data Flow", schedule=schedule) as flow:
     data = extract_data()
     save_to_csv(data)
     load_to_postgres()
 
 if __name__ == "__main__":
     flow.run()
-
-
