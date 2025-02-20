@@ -3,3 +3,6 @@ venv/*
 
 # pip package
 get-pip.py
+
+# logs
+logs/*

@@ -1,0 +1,10 @@
+version: 2
+
+# sets configuration to postgresql database source name brt_data 
+sources:
+  - name: brt_data  # source name
+    database: brt_data  # database name
+    schema: public  # schema name
+    tables: 
+      - name: gps_brt  # table name
+        description: "Table that contains BRT bus GPS data"
