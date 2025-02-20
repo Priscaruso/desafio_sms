@@ -18,7 +18,7 @@ schedule = IntervalSchedule(interval=timedelta(minutes=1))
 @task
 def save_to_csv(data):
     df = pd.json_normalize(data)
-    df.to_csv('output_data/brt_data.csv', mode='a', header=False, index=False)
+    df.to_csv('brt_data.csv', mode='a', header=False, index=False)
 
 @task
 def load_to_postgres():
@@ -26,7 +26,7 @@ def load_to_postgres():
     new_columns = ['codigo', 'placa', 'linha', 'latitude', 'longitude', 'dataHora',
        'velocidade', 'id_migracao_trajeto', 'sentido', 'trajeto', 'hodometro',
        'direcao', 'ignicao']
-    df = pd.read_csv('output_data/brt_data.csv', names=new_columns, header=None)
+    df = pd.read_csv('brt_data.csv', names=new_columns, header=None)
     df.to_sql('gps_brt', engine, if_exists='append', index=False)
 
 with Flow("BRT Data Flow", schedule=schedule) as flow:
