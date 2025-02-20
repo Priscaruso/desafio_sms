@@ -5,6 +5,7 @@ from sqlalchemy import create_engine
 from prefect.schedules.schedules import IntervalSchedule
 from datetime import timedelta
 
+# task to extract data from BRS GPS API 
 @task
 def extract_data():
     response = requests.get("https://dados.mobilidade.rio/gps/brt")
@@ -15,6 +16,7 @@ def extract_data():
 # schedule data extraction to run every minute
 schedule = IntervalSchedule(interval=timedelta(minutes=1))
 
+# task to generate csv file, normalizing JSON nested data
 @task
 def save_to_csv(data):
     df = pd.json_normalize(data)
@@ -29,6 +31,7 @@ def load_to_postgres():
     df = pd.read_csv('brt_data.csv', names=new_columns, header=None)
     df.to_sql('gps_brt', engine, if_exists='append', index=False)
 
+# generates the flow using the tasks
 with Flow("BRT Data Flow", schedule=schedule) as flow:
     data = extract_data()
     csv_task = save_to_csv(data)
@@ -37,5 +40,6 @@ with Flow("BRT Data Flow", schedule=schedule) as flow:
     # define task dependency
     load_task.set_upstream(csv_task)
 
+# runs the flow
 if __name__ == "__main__":
     flow.run()
