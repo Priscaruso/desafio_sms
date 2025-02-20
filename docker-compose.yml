@@ -1,3 +1,4 @@
+# sets postgres service using the latest version and specific credentials
 services:
   postgres:
     image: postgres:latest
