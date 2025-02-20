@@ -1,6 +1,6 @@
 version: 2
 
-# sets configuration to posgresql database source name brt_data 
+# sets configuration to postgresql database source name brt_data 
 sources:
   - name: brt_data  # source name
     database: brt_data  # database name
