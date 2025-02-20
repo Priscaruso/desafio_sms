@@ -4,8 +4,5 @@ venv/*
 # pip package
 get-pip.py
 
-# csv generated file in output_data directory
-output_data/*
-
 # logs
 logs/*
