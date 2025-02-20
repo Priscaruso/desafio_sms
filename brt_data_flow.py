@@ -22,6 +22,7 @@ def save_to_csv(data):
     df = pd.json_normalize(data)
     df.to_csv('brt_data.csv', mode='a', header=False, index=False)
 
+# task to load csv file data into 'gps_brt' table in postgresql database 
 @task
 def load_to_postgres():
     engine = create_engine('postgresql://docker:secreta@localhost:5432/brt_data')
