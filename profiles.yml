@@ -1,0 +1,11 @@
+dbt_project:
+  outputs:
+    dev:
+      dbname: brt_data
+      host: localhost
+      pass: secreta
+      port: 5432
+      schema: public
+      type: postgres
+      user: docker
+  target: dev
