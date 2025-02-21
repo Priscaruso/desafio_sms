@@ -45,7 +45,7 @@ parsedatetime==2.6
 partd==1.4.2
 pathspec==0.12.1
 pendulum==3.0.0
-pkg_resources==0.0.0
+#pkg_resources==0.0.0
 prefect==0.15.9
 protobuf==5.29.3
 psutil==7.0.0
